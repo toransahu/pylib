@@ -1,5 +1,9 @@
 # core packages
 -r requirements.txt
+# lint/fmt
+black
+isort
+flake8
 # for package installation
 setuptools==65.5.1
 # for package publish
