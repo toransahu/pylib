@@ -19,7 +19,8 @@ REPO_DIR = os.path.abspath(os.path.dirname(__file__))
 ABOUT_FILE = os.path.join(REPO_DIR, "__about__.py")
 REQ_FILE = os.path.join(REPO_DIR, "requirements.txt")
 VERSION_FILE = os.path.join(REPO_DIR, "VERSION")
-VERSION = open(VERSION_FILE).read()
+VERSION = open(VERSION_FILE).read().strip()
+
 
 # Package metadata
 about = {}
@@ -37,6 +38,17 @@ with open(REQ_FILE, encoding="utf-8") as f:
 # get long description
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+# Shorthand to publish the package `$ python setup.py publish`
+if sys.argv[-2:] == ["--test", "publish"]:
+    os.system("python setup.py sdist bdist_wheel")
+    os.system("twine upload --repository-url https://test.pypi.org/legacy/ dist/*")
+    sys.exit()
+elif sys.argv[-1] == "publish":
+    os.system("python setup.py sdist bdist_wheel")
+    os.system("twine upload dist/*")
+    # os.system("twine upload --repository-url https://upload.pypi.org/legacy/ dist/*")
+    sys.exit()
 
 setup(
     name=about['__title__'],
@@ -73,15 +85,3 @@ setup(
         "pyutils",
     ],
 )
-
-
-# Shorthand to publish the package `$ python setup.py publish`
-if sys.argv[-2:] == ["--test", "publish"]:
-    os.system("python setup.py sdist bdist_wheel")
-    os.system("twine upload --repository-url https://test.pypi.org/legacy/ dist/*")
-    sys.exit()
-elif sys.argv[-1] == "publish":
-    os.system("python setup.py sdist bdist_wheel")
-    os.system("twine upload dist/*")
-    # os.system("twine upload --repository-url https://upload.pypi.org/legacy/ dist/*")
-    sys.exit()
