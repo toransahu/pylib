@@ -1,0 +1,8 @@
+# core packages
+-r requirements.txt
+# for package installation
+setuptools==65.5.1
+# for package publish
+twine==4.0.1
+# for package distribution
+wheel==0.37.0
